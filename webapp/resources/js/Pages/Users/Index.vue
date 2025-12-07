@@ -102,81 +102,42 @@ export default {
 </script>
 
 <template>
+
     <Head :title="$t('global.users.title')" />
 
     <AuthenticatedLayout>
         <template #breadcrumbs>
-            <v-breadcrumbs
-                :items="[
-                    {
-                        title: $t('global.common.home'),
-                        disabled: false,
-                        href: '/',
-                    },
-                    { title: $t('global.users.title'), disabled: true },
-                ]"
-                divider="/"
-            />
+            <v-breadcrumbs :items="[
+                {
+                    title: $t('global.common.home'),
+                    disabled: false,
+                    href: '/',
+                },
+                { title: $t('global.users.title'), disabled: true },
+            ]" divider="/" />
         </template>
 
-        <v-card
-            class="mx-auto pa-3"
-            variant="flat"
-            :title="$t('global.users.title')"
-        >
+        <v-card class="mx-auto pa-3" :title="$t('global.users.title')">
             <template #append>
-                <v-btn
-                    v-if="$page.props.auth.can.users_create"
-                    color="primary"
-                    variant="flat"
-                    :href="route('users.create')"
-                    class="ml-2"
-                    >{{ $t("global.actions.create") }}</v-btn
-                >
+                <v-btn v-if="$page.props.auth.can.users_create" color="primary" variant="flat"
+                    :href="route('users.create')" class="ml-2">{{ $t("global.actions.create") }}</v-btn>
             </template>
 
             <v-card-text>
-                <v-text-field
-                    v-model="search"
-                    :label="$t('global.common.search')"
-                    prepend-inner-icon="mdi-magnify"
-                    variant="outlined"
-                    hide-details
-                    single-line
-                ></v-text-field>
+                <v-text-field v-model="search" :label="$t('global.common.search')" prepend-inner-icon="mdi-magnify"
+                    variant="outlined" hide-details single-line></v-text-field>
 
-                <v-data-table-server
-                    v-model:items-per-page="itemsPerPage"
-                    :headers="headers"
-                    :items="serverItems"
-                    :items-length="totalItems"
-                    :loading="loading"
-                    :search="search"
-                    @update:options="loadItems"
-                >
+                <v-data-table-server v-model:items-per-page="itemsPerPage" :headers="headers" :items="serverItems"
+                    :items-length="totalItems" :loading="loading" :search="search" @update:options="loadItems">
 
 
                     <template #item.actions="{ item }">
-                        <v-btn
-                            v-if="$page.props.auth.can.users_edit"
-                            color="black"
-                            class="ml-2"
-                            variant="text"
-                            density="comfortable"
-                            icon
-                            :href="route('users.edit', item.id)"
-                        >
+                        <v-btn v-if="$page.props.auth.can.users_edit" color="black" class="ml-2" variant="text"
+                            density="comfortable" icon :href="route('users.edit', item.id)">
                             <v-icon>mdi-pencil</v-icon>
                         </v-btn>
-                        <v-btn
-                            v-if="$page.props.auth.can.users_destroy"
-                            color="red"
-                            class="ml-2"
-                            variant="text"
-                            density="comfortable"
-                            icon
-                            @click="openDeleteModal(item.id)"
-                        >
+                        <v-btn v-if="$page.props.auth.can.users_destroy" color="red" class="ml-2" variant="text"
+                            density="comfortable" icon @click="openDeleteModal(item.id)">
                             <v-icon>mdi-delete</v-icon>
                         </v-btn>
                     </template>
@@ -189,7 +150,7 @@ export default {
                 <v-card-title class="px-6">
                     <span class="headline px-3">{{
                         $t("global.users.delete_confirmation_title")
-                    }}</span>
+                        }}</span>
                 </v-card-title>
 
                 <v-card-text>
@@ -201,14 +162,9 @@ export default {
                 <v-card-actions class="px-6">
                     <v-btn color="grey" @click="closeModal">{{
                         $t("global.actions.cancel")
-                    }}</v-btn>
-                    <v-btn
-                        v-if="$page.props.auth.can.users_destroy"
-                        color="red"
-                        class="mr-2"
-                        @click="deleteUser"
-                        >{{ $t("global.actions.delete") }}</v-btn
-                    >
+                        }}</v-btn>
+                    <v-btn v-if="$page.props.auth.can.users_destroy" color="red" class="mr-2" @click="deleteUser">{{
+                        $t("global.actions.delete") }}</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
