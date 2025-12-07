@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <v-main>
-            <v-row class="bg-containerBg position-relative h-screen" no-gutters>
+            <v-row class="bg-lightprimary position-relative h-screen" no-gutters>
                 <v-col cols="12" class="d-none d-md-flex">
                     <div class="pt-6 pl-6">
                         Geoglify
