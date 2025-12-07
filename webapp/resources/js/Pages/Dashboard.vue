@@ -1,6 +1,7 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head } from "@inertiajs/vue3";
+import Map from "@/Components/Map.vue";
 </script>
 
 <template>
@@ -25,7 +26,13 @@ import { Head } from "@inertiajs/vue3";
         </template>
 
         <v-card class="mx-auto pa-3" variant="flat">
-            {{ $t("global.auth.logged_in_message") }}
+            <Map />
         </v-card>
     </AuthenticatedLayout>
 </template>
+
+<style scoped>
+.v-card {
+    height: calc(100vh - 200px);
+}
+</style>
