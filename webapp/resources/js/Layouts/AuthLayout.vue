@@ -16,6 +16,11 @@
                                     <v-card elevation="0" class="loginBox">
                                         <v-card elevation="24">
                                             <v-card-text class="pa-sm-10 pa-6">
+                                                <!-- Language Switcher -->
+                                                <div class="d-flex justify-end mb-4">
+                                                    <LanguageSwitcher />
+                                                </div>
+                                                
                                                 <div class="d-flex d-md-none justify-center mb-4">
                                                     <Logo />
                                                 </div>
@@ -32,6 +37,11 @@
         </v-main>
     </v-app>
 </template>
+
+<script setup>
+import LanguageSwitcher from '@/Components/LanguageSwitcher.vue';
+</script>
+
 
 <style lang="scss">
 .loginBox {

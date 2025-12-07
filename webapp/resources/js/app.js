@@ -7,7 +7,6 @@ import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { ZiggyVue } from "../../vendor/tightenco/ziggy";
 import vuetify from "./vuetify";
 import fetchInterceptor from "./fetchInterceptor";
-import CountryFlag from "vue-country-flag-next";
 import { vMaska } from "maska/vue";
 import moment from "moment-timezone";
 import { createI18n } from "vue-i18n";
@@ -46,7 +45,6 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue)
             .use(fetchInterceptor)
-            .use(CountryFlag)
             .use(i18n)
             .use(vuetify)
             .mixin({

@@ -25,7 +25,7 @@ import Map from "@/Components/Map.vue";
             />
         </template>
 
-        <v-card class="mx-auto pa-3" variant="flat">
+        <v-card class="mx-auto pa-3">
             <Map />
         </v-card>
     </AuthenticatedLayout>
@@ -33,6 +33,6 @@ import Map from "@/Components/Map.vue";
 
 <style scoped>
 .v-card {
-    height: calc(100vh - 200px);
+    height: calc(100vh - 170px);
 }
 </style>

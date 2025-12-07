@@ -1,5 +1,6 @@
 <script setup>
 import { Link } from "@inertiajs/vue3";
+import LanguageSwitcher from '@/Components/LanguageSwitcher.vue';
 
 defineProps({
     drawer: {
@@ -29,6 +30,9 @@ defineEmits(["update:drawer"]);
         </v-btn>
 
         <v-spacer />
+
+        <!-- Language Switcher -->
+        <LanguageSwitcher />
 
         <v-menu :close-on-content-click="false" offset="8, 0">
             <template v-slot:activator="{ props }">
@@ -89,3 +93,11 @@ defineEmits(["update:drawer"]);
         </v-menu>
     </v-app-bar>
 </template>
+
+<style scoped>
+/* Reduce excessive spacing in list item prepend */
+:deep(.v-list-item__prepend) {
+    display: block !important;
+}
+</style>
+

@@ -2,7 +2,6 @@
 import { ref } from "vue";
 import Sidebar from "@/Layouts/Partials/Sidebar.vue";
 import Header from "@/Layouts/Partials/Header.vue";
-import Footer from "@/Layouts/Partials/Footer.vue";
 
 const drawer = ref(true);
 </script>
@@ -16,9 +15,6 @@ const drawer = ref(true);
             <v-container fluid class="pa-6">
                 <slot name="breadcrumbs" />
                 <slot />
-            </v-container>
-            <v-container fluid class="pt-0">
-                <Footer />
             </v-container>
         </v-main>
     </v-app>

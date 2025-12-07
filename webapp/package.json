@@ -33,6 +33,7 @@
         "@mapbox/mapbox-gl-draw": "^1.4.3",
         "@tailwindcss/postcss": "^4.1.17",
         "@turf/turf": "^7.1.0",
+        "country-flag-icons": "^1.6.4",
         "maplibre-gl": "^4.6.0",
         "maska": "^3.0.3",
         "moment": "^2.30.1",
@@ -40,7 +41,6 @@
         "proj4": "^2.15.0",
         "puppeteer": "^23.5.2",
         "signature_pad": "^5.0.3",
-        "vue-country-flag-next": "^2.3.2",
         "vue-i18n": "^9.14.5",
         "vue-router": "^4.4.3",
         "vuetify": "^3.7.0"

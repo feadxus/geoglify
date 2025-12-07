@@ -68,7 +68,7 @@ const menuItems = [
     </v-navigation-drawer>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .leftSidebar {
     .v-list-item--active {
         background: rgb(var(--v-theme-primary));
@@ -78,4 +78,10 @@ const menuItems = [
         }
     }
 }
+
+/* Reduce excessive spacing in list item prepend */
+:deep(.v-list-item__prepend) {
+    display: block !important;
+}
 </style>
+
