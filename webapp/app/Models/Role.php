@@ -32,18 +32,8 @@ class Role extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
-    protected function getCreatorNameAttribute()
-    {
-        return $this->createdBy ? $this->createdBy->name : 'N/A';
-    }
-
     public function updatedBy()
     {
         return $this->belongsTo(User::class, 'updated_by');
-    }
-
-    protected function getUpdaterNameAttribute()
-    {
-        return $this->updatedBy ? $this->updatedBy->name : 'N/A';
     }
 }

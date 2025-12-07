@@ -24,7 +24,6 @@
             "dashboard": "Painel de Controlo",
             "users": "Utilizadores",
             "roles": "Funções",
-            "ports": "Portos",
             "configurations": "Configurações",
             "logout": "Sair"
         },
@@ -75,8 +74,6 @@
             "delete_warning": "Assim que esta conta for eliminada, todos os seus recursos e dados serão permanentemente eliminados.",
             "fields": {
                 "type": "Tipo",
-                "ports": "Portos",
-                "default_port": "Porto Padrão",
                 "role": "Função"
             }
         },

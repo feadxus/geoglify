@@ -16,36 +16,26 @@ defineProps({
 </script>
 
 <template>
+
     <Head :title="$t('global.profile.title')" />
 
     <AuthenticatedLayout>
         <template #breadcrumbs>
-            <v-breadcrumbs
-                :items="[
-                    {
-                        title: $t('global.common.home'),
-                        disabled: false,
-                        href: '/',
-                    },
-                    { title: $t('global.profile.title'), disabled: true },
-                ]"
-                divider="/"
-            />
+            <v-breadcrumbs :items="[
+                {
+                    title: $t('global.common.home'),
+                    disabled: false,
+                    href: '/',
+                },
+                { title: $t('global.profile.title'), disabled: true },
+            ]" divider="/" />
         </template>
 
-        <v-card class="mx-auto pa-3" border>
-            <UpdateProfileInformationForm
-                :must-verify-email="mustVerifyEmail"
-                :status="status"
-            />
-        </v-card>
+        <UpdateProfileInformationForm :must-verify-email="mustVerifyEmail" :status="status" class="mb-5" />
 
-        <v-card class="mx-auto pa-3 mt-4" border>
-            <UpdatePasswordForm />
-        </v-card>
+        <UpdatePasswordForm class="mb-5" />
 
-        <v-card class="mx-auto pa-3 mt-4" border>
-            <DeleteUserForm />
-        </v-card>
+        <DeleteUserForm />
+
     </AuthenticatedLayout>
 </template>

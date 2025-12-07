@@ -22,7 +22,6 @@ return [
         'dashboard' => 'Painel de Controlo',
         'users' => 'Utilizadores',
         'roles' => 'Funções',
-        'ports' => 'Portos',
         'configurations' => 'Configurações',
         'logout' => 'Sair',
     ],
@@ -78,8 +77,6 @@ return [
 
         'fields' => [
             'type' => 'Tipo',
-            'ports' => 'Portos',
-            'default_port' => 'Porto Padrão',
             'role' => 'Função',
         ],
     ],
@@ -108,7 +105,7 @@ return [
         'update_password_title' => 'Atualizar Palavra-passe',
         'update_password_description' => 'Certifique-se de que a sua conta está a usar uma palavra-passe longa e aleatória para se manter seguro.',
         'delete_account_title' => 'Eliminar Conta',
-        'delete_account_description' => 'Assim que a sua conta for eliminada, todos os seus recursos e dados serão permanentemente eliminados. Antes de eliminar a sua conta, faça o download de quaisquer dados ou informações que deseje conservar.',
+        'delete_account_description' => 'Assim que a sua conta for eliminada, todos os seus recursos e dados serão permanentemente eliminados.',
         'delete_account_button' => 'Eliminar Conta',
         'delete_confirmation_title' => 'Tem a certeza de que deseja eliminar a sua conta?',
         'delete_confirmation_message' => 'Assim que a sua conta for eliminada, todos os seus recursos e dados serão permanentemente eliminados. Por favor, introduza a sua palavra-passe para confirmar que deseja eliminar permanentemente a sua conta.',

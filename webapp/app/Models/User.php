@@ -39,16 +39,6 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be appended to the model.
-     *
-     * @var array<int, string>
-     */
-    protected $appends = [
-        'creator_name',
-        'updater_name',
-    ];
-
-    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -74,19 +64,9 @@ class User extends Authenticatable
         return $this->belongsTo(User::class, 'created_by');
     }
 
-    protected function getCreatorNameAttribute()
-    {
-        return $this->createdBy ? $this->createdBy->name : 'N/A';
-    }
-
     public function updatedBy()
     {
         return $this->belongsTo(User::class, 'updated_by');
-    }
-
-    protected function getUpdaterNameAttribute()
-    {
-        return $this->updatedBy ? $this->updatedBy->name : 'N/A';
     }
 
     public function isAdmin(): bool

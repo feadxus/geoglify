@@ -24,7 +24,6 @@
             "dashboard": "Dashboard",
             "users": "Users",
             "roles": "Roles",
-            "ports": "Ports",
             "configurations": "Configurations",
             "logout": "Logout"
         },
@@ -75,7 +74,6 @@
             "delete_warning": "Once this account is deleted, all of its resources and data will be permanently deleted.",
             "fields": {
                 "type": "Type",
-                "ports": "Ports",
                 "default_port": "Default Port",
                 "role": "Role"
             }

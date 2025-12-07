@@ -56,17 +56,23 @@ defineEmits(["update:drawer"]);
             </template>
             <v-sheet rounded="md" width="200" elevation="10" class="mt-2">
                 <v-list class="py-0">
-                    <v-list-item>
-                        <template v-slot:prepend>
-                            <v-icon
-                                icon="mdi-account-outline"
-                                size="small"
-                            ></v-icon>
-                        </template>
-                        <v-list-item-title>
-                            {{ $t("global.profile.title") }}
-                        </v-list-item-title>
-                    </v-list-item>
+                    <Link
+                        :href="route('profile.edit')"
+                        as="div"
+                        class="text-decoration-none"
+                    >
+                        <v-list-item link>
+                            <template v-slot:prepend>
+                                <v-icon
+                                    icon="mdi-account-outline"
+                                    size="small"
+                                ></v-icon>
+                            </template>
+                            <v-list-item-title>
+                                {{ $t("global.profile.title") }}
+                            </v-list-item-title>
+                        </v-list-item>
+                    </Link>
                     
                     <v-divider></v-divider>
 
