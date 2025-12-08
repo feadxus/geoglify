@@ -36,9 +36,14 @@ const submit = () => {
             <h6 class="text-h6 text-center mb-0">
                 {{ $t("global.auth.login_title") }}
             </h6>
-            <Link :href="route('register')" class="text-primary text-decoration-none">
-                {{ $t("global.auth.register_question") }}
-            </Link>
+            <div>
+                <Link :href="route('login.otp')" class="text-primary text-decoration-none mr-4">
+                    {{ $t('global.auth.otp.login_code') }}
+                </Link>
+                <Link :href="route('register')" class="text-primary text-decoration-none">
+                    {{ $t("global.auth.register_question") }}
+                </Link>
+            </div>
         </div>
 
         <form @submit.prevent="submit" class="mt-7 loginForm">

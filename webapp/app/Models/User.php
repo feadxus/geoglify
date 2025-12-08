@@ -10,10 +10,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\OneTimePasswords\Models\Concerns\HasOneTimePasswords;
 
 class User extends Authenticatable
 {
-    use CreatedUpdatedBy, HasFactory, Notifiable, SoftDeletes;
+    use CreatedUpdatedBy, HasFactory, Notifiable, SoftDeletes, HasOneTimePasswords;
 
     /**
      * The attributes that are mass assignable.
@@ -39,7 +40,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * The attributes that should be cast.
      *
      * @return array<string, string>
      */

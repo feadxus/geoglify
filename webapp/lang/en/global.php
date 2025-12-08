@@ -64,6 +64,18 @@ return [
         'register_question' => 'Don\'t have an account?',
         'remember_me' => 'Remember me',
         'forgot_password' => 'Forgot Password?',
+        'otp' => [
+            'login_code' => 'Log in with Code',
+            'back_login' => 'Back to Login',
+            'enter_email' => 'Enter your email address to receive a one-time login code.',
+            'send_code' => 'Send Code',
+            'verify_code' => 'Verify Code',
+            'change_email' => 'Change Email',
+            'enter_code' => 'Please enter the 6-digit code sent to {email}',
+            'verify_login' => 'Verify & Login',
+            'no_code' => 'Didn\'t receive code?',
+            'resend' => 'Resend',
+        ],
     ],
 
     'users' => [

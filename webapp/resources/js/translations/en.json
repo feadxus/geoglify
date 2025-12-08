@@ -21,7 +21,7 @@
             }
         },
         "navigation": {
-            "dashboard": "Dashboard",
+            "dashboard": "Map",
             "users": "Users",
             "roles": "Roles",
             "configurations": "Configurations",
@@ -63,7 +63,19 @@
             "verification_link_sent": "A new verification link has been sent to the email address you provided during registration.",
             "register_question": "Don't have an account?",
             "remember_me": "Remember me",
-            "forgot_password": "Forgot Password?"
+            "forgot_password": "Forgot Password?",
+            "otp": {
+                "login_code": "Log in with Code",
+                "back_login": "Back to Login",
+                "enter_email": "Enter your email address to receive a one-time login code.",
+                "send_code": "Send Code",
+                "verify_code": "Verify Code",
+                "change_email": "Change Email",
+                "enter_code": "Please enter the 6-digit code sent to {email}",
+                "verify_login": "Verify & Login",
+                "no_code": "Didn't receive code?",
+                "resend": "Resend"
+            }
         },
         "users": {
             "title": "Users",
@@ -131,6 +143,19 @@
             "roles_destroy": "Delete roles",
             "roles_show": "View roles",
             "roles_list": "List roles"
+        }
+    },
+    "one-time-passwords": {
+        "mail_subject": "One-Time Access Code",
+        "greeting": "Hello!",
+        "intro": "This is your one-time access code to use at :url:",
+        "code_label": "Your code is:",
+        "security_warning": "If you did not request this code, please change your password immediately or contact support.",
+        "verify_button": "Verify Code",
+        "notifications": {
+            "title": "One-time access code",
+            "intro": "This is your one-time access code to use at :url:",
+            "outro": "To protect your account, do not share this code with anyone. If you did not request this code, you can safely ignore this email."
         }
     },
     "pagination": {

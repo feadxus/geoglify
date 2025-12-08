@@ -16,6 +16,11 @@ $locales = array_filter(scandir($langDir), function($dir) use ($langDir) {
     return $dir !== '.' && $dir !== '..' && is_dir($langDir . '/' . $dir);
 });
 
+// Exclude 'vendor' directory
+$locales = array_filter($locales, function($dir) {
+    return $dir !== 'vendor';
+});
+
 foreach ($locales as $locale) {
     $translations = [];
     $langPath = $langDir . '/' . $locale;

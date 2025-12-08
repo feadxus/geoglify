@@ -64,6 +64,18 @@ return [
         'register_question' => 'Não tem conta?',
         'remember_me' => 'Lembrar-me',
         'forgot_password' => 'Esqueceu a palavra-passe?',
+        'otp' => [
+            'login_code' => 'Entrar com Código',
+            'back_login' => 'Voltar ao Login',
+            'enter_email' => 'Introduza o seu email para receber um código de acesso único.',
+            'send_code' => 'Enviar Código',
+            'verify_code' => 'Verificar Código',
+            'change_email' => 'Alterar Email',
+            'enter_code' => 'Por favor, introduza o código de 6 dígitos enviado para {email}',
+            'verify_login' => 'Verificar e Entrar',
+            'no_code' => 'Não recebeu o código?',
+            'resend' => 'Reenviar',
+        ],
     ],
 
     'users' => [

@@ -60,25 +60,7 @@ class HandleInertiaRequests extends Middleware
             }
         }
 
-        // Get current locale from session, if not set use 'en' as default
-        // We don't use config('app.locale') here to allow explicit control
-        $locale = session('locale');
-
-        if (!$locale) {
-            // First time: use config or default to 'en'
-            $locale = config('app.locale', 'en');
-            // Store in session for future requests
-            session(['locale' => $locale]);
-        }
-
-        // Validate locale
-        if (!in_array($locale, ['en', 'pt'])) {
-            $locale = 'en';
-            session(['locale' => $locale]);
-        }
-
-        // Set application locale
-        App::setLocale($locale);
+        $locale = App::getLocale();
 
         return [
             ...parent::share($request),

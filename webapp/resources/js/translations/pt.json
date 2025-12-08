@@ -62,7 +62,19 @@
             "verification_link_sent": "Foi enviado um novo link de verificação para o endereço de email que forneceu durante o registo.",
             "register_question": "Não tem conta?",
             "remember_me": "Lembrar-me",
-            "forgot_password": "Esqueceu a palavra-passe?"
+            "forgot_password": "Esqueceu a palavra-passe?",
+            "otp": {
+                "login_code": "Entrar com Código",
+                "back_login": "Voltar ao Login",
+                "enter_email": "Introduza o seu email para receber um código de acesso único.",
+                "send_code": "Enviar Código",
+                "verify_code": "Verificar Código",
+                "change_email": "Alterar Email",
+                "enter_code": "Por favor, introduza o código de 6 dígitos enviado para {email}",
+                "verify_login": "Verificar e Entrar",
+                "no_code": "Não recebeu o código?",
+                "resend": "Reenviar"
+            }
         },
         "users": {
             "title": "Utilizadores",
@@ -130,6 +142,19 @@
             "roles_destroy": "Eliminar funções",
             "roles_show": "Ver funções",
             "roles_list": "Listar funções"
+        }
+    },
+    "one-time-passwords": {
+        "mail_subject": "[GEOGLIFY] Código único de acesso",
+        "greeting": "Olá!",
+        "intro": "Este é o seu código único de acesso para usar em :url:",
+        "code_label": "O seu código é:",
+        "security_warning": "Para proteger a sua conta, não partilhe este código com ninguém. Se não solicitou este código, pode ignorar este e-mail com segurança.",
+        "verify_button": "Validar código",
+        "notifications": {
+            "title": "Código único de acesso",
+            "intro": "Este é o seu código único de acesso para usar em :url:",
+            "outro": "Para proteger a sua conta, não partilhe este código com ninguém. Se não solicitou este código, pode ignorar este e-mail com segurança."
         }
     },
     "pagination": {

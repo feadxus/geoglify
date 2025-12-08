@@ -5,6 +5,7 @@
                 <v-col cols="12" class="d-none d-md-flex">
                     <div class="pt-5 pl-6">
                         Geoglify
+                        <LanguageSwitcher />
                     </div>
                 </v-col>
                 <!---Login Part-->
@@ -16,11 +17,6 @@
                                     <v-card elevation="0" class="loginBox">
                                         <v-card elevation="24">
                                             <v-card-text class="pa-sm-10 pa-6">
-                                                <!-- Language Switcher -->
-                                                <div class="d-flex justify-end mb-5">
-                                                    <LanguageSwitcher />
-                                                </div>
-
                                                 <div class="d-flex d-md-none justify-center mb-5">
                                                     <Logo />
                                                 </div>
