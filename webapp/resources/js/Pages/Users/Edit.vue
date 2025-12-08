@@ -45,29 +45,30 @@ const updateUser = () => {
         </template>
 
         <v-form @submit.prevent="updateUser">
-            <v-card class="mx-auto pa-3" :title="$t('global.users.edit_title')"
-                :subtitle="$t('global.users.edit_subtitle')">
-                <v-card-text>
+            <v-card class="mx-auto pa-3" :title="$t('global.users.edit_title')">
+                <v-divider class="mx-5" />
+
+                <v-card-text class="mt-5">
                     <v-text-field v-model="form.name" :label="$t('global.common.fields.name')" required
-                        variant="outlined" :error-messages="form.errors.name" class="mb-4" />
+                        variant="outlined" :error-messages="form.errors.name" class="mb-5" />
 
                     <v-text-field v-model="form.email" :label="$t('global.common.fields.email')" required
-                        variant="outlined" :error-messages="form.errors.email" autocomplete="new-email" class="mb-4" />
+                        variant="outlined" :error-messages="form.errors.email" autocomplete="new-email" class="mb-5" />
 
                     <v-text-field v-model="form.password" :label="$t('global.common.fields.password')"
                         variant="outlined" :error-messages="form.errors.password" type="password"
-                        autocomplete="new-password" class="mb-4" />
+                        autocomplete="new-password" class="mb-5" />
 
                     <v-text-field v-model="form.password_confirmation" :label="$t('global.common.fields.password_confirmation')
                         " variant="outlined" :error-messages="form.errors.password_confirmation" type="password"
-                        autocomplete="new-password" class="mb-4" />
+                        autocomplete="new-password" class="mb-5" />
 
 
                     <v-select v-model="form.role_id" :label="$t('global.users.fields.role')" required variant="outlined"
                         :items="props.roles" item-value="id" item-title="title" :error-messages="form.errors.role_id"
-                        class="mb-4"></v-select>
+                        class="mb-5"></v-select>
                 </v-card-text>
-                <v-card-actions class="px-4">
+                <v-card-actions class="px-5">
                     <v-btn :href="route('users.index')" color="primary" variant="tonal" class="mr-2">{{
                         $t("global.actions.cancel") }}</v-btn>
                     <v-spacer></v-spacer>

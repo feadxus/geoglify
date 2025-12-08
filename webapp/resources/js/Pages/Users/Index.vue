@@ -123,7 +123,9 @@ export default {
                     :href="route('users.create')" class="ml-2">{{ $t("global.actions.create") }}</v-btn>
             </template>
 
-            <v-card-text>
+            <v-divider class="mx-4" />
+
+            <v-card-text class="mt-5">
                 <v-text-field v-model="search" :label="$t('global.common.search')" prepend-inner-icon="mdi-magnify"
                     variant="outlined" hide-details single-line></v-text-field>
 
@@ -145,25 +147,28 @@ export default {
             </v-card-text>
         </v-card>
 
-        <v-dialog v-model="deleteModalOpen" width="500">
+        <v-dialog v-model="deleteModalOpen" width="50%">
             <v-card>
-                <v-card-title class="px-6">
-                    <span class="headline px-3">{{
+                <v-card-title class="px-5 pt-5">
+                    <span class="headline">{{
                         $t("global.users.delete_confirmation_title")
-                        }}</span>
+                    }}</span>
                 </v-card-title>
 
-                <v-card-text>
-                    <v-alert class="mb-4">
+                <v-divider class="mx-4" />
+
+                <v-card-text class="px-5">
+                    <v-alert class="mb-5">
                         {{ $t("global.users.delete_warning") }}
                     </v-alert>
                 </v-card-text>
 
-                <v-card-actions class="px-6">
-                    <v-btn color="grey" @click="closeModal">{{
+                <v-card-actions class="px-5 pb-6">
+                    <v-btn color="primary" variant="tonal" @click="closeModal">{{
                         $t("global.actions.cancel")
-                        }}</v-btn>
-                    <v-btn v-if="$page.props.auth.can.users_destroy" color="red" class="mr-2" @click="deleteUser">{{
+                    }}</v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn v-if="$page.props.auth.can.users_destroy" color="red" variant="flat" @click="deleteUser">{{
                         $t("global.actions.delete") }}</v-btn>
                 </v-card-actions>
             </v-card>

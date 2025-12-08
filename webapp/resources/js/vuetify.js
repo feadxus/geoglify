@@ -20,7 +20,6 @@ const customeTheme = {
         error: "#ff4d4f",
         lighterror: "#ffe7d3",
         info: "#13c2c2",
-        success: "#52c41a",
         lightsuccess: "#eafcd4",
         warning: "#faad14",
         lightwarning: "#fff6d0",

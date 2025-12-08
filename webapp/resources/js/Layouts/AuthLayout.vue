@@ -3,7 +3,7 @@
         <v-main>
             <v-row class="bg-lightprimary position-relative h-screen" no-gutters>
                 <v-col cols="12" class="d-none d-md-flex">
-                    <div class="pt-6 pl-6">
+                    <div class="pt-5 pl-6">
                         Geoglify
                     </div>
                 </v-col>
@@ -17,11 +17,11 @@
                                         <v-card elevation="24">
                                             <v-card-text class="pa-sm-10 pa-6">
                                                 <!-- Language Switcher -->
-                                                <div class="d-flex justify-end mb-4">
+                                                <div class="d-flex justify-end mb-5">
                                                     <LanguageSwitcher />
                                                 </div>
-                                                
-                                                <div class="d-flex d-md-none justify-center mb-4">
+
+                                                <div class="d-flex d-md-none justify-center mb-5">
                                                     <Logo />
                                                 </div>
                                                 <slot />

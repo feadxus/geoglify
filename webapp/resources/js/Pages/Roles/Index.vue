@@ -30,11 +30,19 @@ export default {
                     align: "start",
                     sortable: false,
                 },
+                {
+                    title: this.$t("global.roles.permissions_count"),
+                    key: "permissions_count",
+                    align: "center",
+                    sortable: false,
+                },
                 { title: "", key: "actions", align: "end", sortable: false },
             ],
 
             deleteModalOpen: false,
             deleteId: null,
+            snackbar: false,
+            snackbarMessage: "",
         };
     },
     methods: {
@@ -89,6 +97,10 @@ export default {
             await fetch(route("roles.destroy", this.deleteId), {
                 method: "DELETE",
             }).then(() => {
+                // Show success message
+                this.snackbarMessage = this.$t("global.roles.deleted_successfully");
+                this.snackbar = true;
+
                 // Reload the items
                 this.loadItems({
                     page: this.page,
@@ -102,77 +114,50 @@ export default {
 </script>
 
 <template>
+
     <Head :title="$t('global.roles.title')" />
 
     <AuthenticatedLayout>
         <template #breadcrumbs>
-            <v-breadcrumbs
-                :items="[
-                    {
-                        title: $t('global.common.home'),
-                        disabled: false,
-                        href: '/',
-                    },
-                    { title: $t('global.roles.title'), disabled: true },
-                ]"
-                divider="/"
-            />
+            <v-breadcrumbs :items="[
+                {
+                    title: $t('global.common.home'),
+                    disabled: false,
+                    href: '/',
+                },
+                { title: $t('global.roles.title'), disabled: true },
+            ]" divider="/" />
         </template>
 
         <v-card class="mx-auto pa-3" :title="$t('global.roles.title')">
             <template #append>
-                <v-btn
-                    v-if="$page.props.auth.can.roles_create"
-                    color="primary"
-                    variant="flat"
-                    :href="route('roles.create')"
-                    class="ml-2"
-                    >{{ $t("global.actions.create") }}</v-btn
-                >
+                <v-btn v-if="$page.props.auth.can.roles_create" color="primary" variant="flat"
+                    :href="route('roles.create')" class="ml-2">{{ $t("global.actions.create") }}</v-btn>
             </template>
 
-            <v-card-text>
-                <v-text-field
-                    v-model="search"
-                    :label="$t('global.common.search')"
-                    prepend-inner-icon="mdi-magnify"
-                    variant="outlined"
-                    hide-details
-                    single-line
-                ></v-text-field>
+            <v-divider class="mx-5" />
 
-                <v-data-table-server
-                    v-model:items-per-page="itemsPerPage"
-                    :headers="headers"
-                    :items="serverItems"
-                    :items-length="totalItems"
-                    :loading="loading"
-                    :search="search"
-                    @update:options="loadItems"
-                >
+            <v-card-text class="mt-5">
+                <v-text-field v-model="search" :label="$t('global.common.search')" prepend-inner-icon="mdi-magnify"
+                    variant="outlined" hide-details single-line></v-text-field>
+
+                <v-data-table-server v-model:items-per-page="itemsPerPage" :headers="headers" :items="serverItems"
+                    :items-length="totalItems" :loading="loading" :search="search" @update:options="loadItems">
+                    <template #item.permissions_count="{ item }">
+                        <v-chip size="small" color="primary" variant="tonal">
+                            {{ item.permissions_count }}
+                        </v-chip>
+                    </template>
+
                     <template #item.actions="{ item }">
-                        <v-btn
-                            v-if="
-                                $page.props.auth.can.roles_edit
-                            "
-                            color="black"
-                            class="ml-2"
-                            variant="text"
-                            density="comfortable"
-                            icon
-                            :href="route('roles.edit', item.id)"
-                        >
+                        <v-btn v-if="
+                            $page.props.auth.can.roles_edit
+                        " color="black" class="ml-2" variant="text" density="comfortable" icon
+                            :href="route('roles.edit', item.id)">
                             <v-icon>mdi-pencil</v-icon>
                         </v-btn>
-                        <v-btn
-                            v-if="$page.props.auth.can.roles_destroy"
-                            color="red"
-                            class="ml-2"
-                            variant="text"
-                            density="comfortable"
-                            icon
-                            @click="openDeleteModal(item.id)"
-                        >
+                        <v-btn v-if="$page.props.auth.can.roles_destroy" color="red" class="ml-2" variant="text"
+                            density="comfortable" icon @click="openDeleteModal(item.id)">
                             <v-icon>mdi-delete</v-icon>
                         </v-btn>
                     </template>
@@ -180,37 +165,35 @@ export default {
             </v-card-text>
         </v-card>
 
-        <v-dialog v-model="deleteModalOpen" width="500">
+        <!-- Delete Confirmation Modal -->
+        <v-dialog v-model="deleteModalOpen" width="50%">
             <v-card>
-                <v-card-title class="px-6">
-                    <span class="headline px-3">{{
+                <v-card-title class="px-5 pt-5">
+                    <span class="headline">{{
                         $t("global.roles.delete_confirmation_title")
-                    }}</span>
+                        }}</span>
                 </v-card-title>
 
-                <v-card-text>
+                <v-divider class="mx-4" />
+
+                <v-card-text class="px-5">
                     <v-alert>
                         {{ $t("global.roles.delete_warning") }}
                     </v-alert>
                 </v-card-text>
 
-                <v-card-actions class="px-6">
-                    <v-btn
-                        color="primary"
-                        variant="tonal"
-                        @click="closeModal"
-                        >{{ $t("global.actions.cancel") }}</v-btn
-                    >
+                <v-card-actions class="px-5 pb-6">
+                    <v-btn color="primary" variant="tonal" @click="closeModal">{{ $t("global.actions.cancel") }}</v-btn>
                     <v-spacer></v-spacer>
-                    <v-btn
-                        v-if="$page.props.auth.can.roles_destroy"
-                        color="red"
-                        variant="flat"
-                        @click="deleteRole"
-                        >{{ $t("global.actions.delete") }}</v-btn
-                    >
+                    <v-btn v-if="$page.props.auth.can.roles_destroy" color="red" variant="flat" @click="deleteRole">{{
+                        $t("global.actions.delete") }}</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
+
+        <!-- Success Snackbar -->
+        <v-snackbar v-model="snackbar" :timeout="3000" color="success" location="top">
+            {{ snackbarMessage }}
+        </v-snackbar>
     </AuthenticatedLayout>
 </template>

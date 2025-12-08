@@ -73,4 +73,26 @@ class User extends Authenticatable
     {
         return $this->roles()->where('title', 'Admin')->count() > 0;
     }
+
+    /**
+     * Get all permissions for the user through their roles.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function permissions()
+    {
+        return $this->roles()->with('permissions')->get()->pluck('permissions')->flatten()->unique('id');
+    }
+
+    /**
+     * Check if user has a specific permission.
+     */
+    public function hasPermission(string $permissionCode): bool
+    {
+        if ($this->isAdmin()) {
+            return true;
+        }
+
+        return $this->permissions()->contains('code', $permissionCode);
+    }
 }

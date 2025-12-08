@@ -29,85 +29,47 @@ const submit = () => {
 
 <template>
     <AuthLayout>
+
         <Head :title="$t('global.auth.login_title')" />
 
         <div class="d-flex justify-space-between align-center">
             <h6 class="text-h6 text-center mb-0">
                 {{ $t("global.auth.login_title") }}
             </h6>
-            <Link
-                :href="route('register')"
-                class="text-primary text-decoration-none"
-            >
+            <Link :href="route('register')" class="text-primary text-decoration-none">
                 {{ $t("global.auth.register_question") }}
             </Link>
         </div>
 
         <form @submit.prevent="submit" class="mt-7 loginForm">
-            <div class="mb-6">
+            <div class="mb-5">
                 <v-label>{{ $t("global.common.fields.email") }}</v-label>
-                <v-text-field
-                    v-model="form.email"
-                    :error-messages="form.errors.email"
-                    class="mt-2"
-                    required
-                    hide-details="auto"
-                    variant="outlined"
-                    color="primary"
-                    autocomplete="username"
-                    autofocus
-                    placeholder="email"
-                ></v-text-field>
+                <v-text-field v-model="form.email" :error-messages="form.errors.email" class="mt-2" required
+                    hide-details="auto" variant="outlined" color="primary" autocomplete="username" autofocus
+                    placeholder="email"></v-text-field>
             </div>
 
-            <div class="mb-6">
+            <div class="mb-5">
                 <v-label>{{ $t("global.common.fields.password") }}</v-label>
-                <v-text-field
-                    v-model="form.password"
-                    :error-messages="form.errors.password"
-                    required
-                    variant="outlined"
-                    color="primary"
-                    hide-details="auto"
-                    :type="showPassword ? 'text' : 'password'"
-                    class="mt-2"
-                    autocomplete="current-password"
-                    :append-inner-icon="
-                        showPassword ? 'mdi-eye-off' : 'mdi-eye'
-                    "
-                    @click:append-inner="showPassword = !showPassword"
-                    placeholder="password"
-                ></v-text-field>
+                <v-text-field v-model="form.password" :error-messages="form.errors.password" required variant="outlined"
+                    color="primary" hide-details="auto" :type="showPassword ? 'text' : 'password'" class="mt-2"
+                    autocomplete="current-password" :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'
+                        " @click:append-inner="showPassword = !showPassword" placeholder="password"></v-text-field>
             </div>
 
-            <div class="d-flex align-center mt-4 mb-7 mb-sm-0">
-                <v-checkbox
-                    v-model="form.remember"
-                    :label="$t('global.auth.remember_me')"
-                    color="primary"
-                    class="ms-n2"
-                    hide-details
-                ></v-checkbox>
+            <div class="d-flex align-center mt-5 mb-7 mb-sm-0">
+                <v-checkbox v-model="form.remember" :label="$t('global.auth.remember_me')" color="primary" class="ms-n2"
+                    hide-details></v-checkbox>
                 <div class="ml-auto">
-                    <Link
-                        v-if="canResetPassword"
-                        :href="route('password.request')"
-                        class="text-darkText link-hover text-decoration-none"
-                    >
+                    <Link v-if="canResetPassword" :href="route('password.request')"
+                        class="text-darkText link-hover text-decoration-none">
                         {{ $t("global.auth.forgot_password") }}
                     </Link>
                 </div>
             </div>
 
-            <v-btn
-                color="primary"
-                :loading="form.processing"
-                block
-                class="mt-5"
-                variant="flat"
-                size="large"
-                type="submit"
-            >
+            <v-btn color="primary" :loading="form.processing" block class="mt-5" variant="flat" size="large"
+                type="submit">
                 {{ $t("global.auth.login_button") }}
             </v-btn>
         </form>

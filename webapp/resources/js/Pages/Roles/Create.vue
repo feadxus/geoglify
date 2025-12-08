@@ -2,6 +2,7 @@
 import { useForm } from "@inertiajs/vue3";
 import { Head } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import { computed } from "vue";
 
 const props = defineProps({
     permissions: Object,
@@ -13,21 +14,49 @@ const form = useForm({
     description: "",
     permissions: props.permissions.map((permission) => ({
         id: permission.id,
-        description: permission.description,
+        title: permission.title,
+        code: permission.code,
         selected: false, // No permissions selected by default
     })),
 });
 
+// Group permissions by module (users_, roles_, etc.)
+const groupedPermissions = computed(() => {
+    const groups = {};
+
+    form.permissions.forEach((permission) => {
+        // Extract module name from permission code (e.g., "users" from "users_create")
+        const moduleName = permission.code.split('_')[0];
+
+        if (!groups[moduleName]) {
+            groups[moduleName] = [];
+        }
+
+        groups[moduleName].push(permission);
+    });
+
+    return groups;
+});
+
+// Select/Deselect all permissions
+const selectAll = () => {
+    form.permissions.forEach(p => p.selected = true);
+};
+
+const deselectAll = () => {
+    form.permissions.forEach(p => p.selected = false);
+};
+
 const createRole = () => {
     // Create a new list containing only the IDs of selected permissions without modifying form.permissions
-    const selectedPermissions = form.permissions
+    const selectedPermissionIds = form.permissions
         .filter((permission) => permission.selected)
         .map((permission) => permission.id);
 
     // Submit form data, including selected permissions
     form.transform((data) => ({
         ...data,
-        permissions: selectedPermissions,
+        permissions: selectedPermissionIds,
     })).post(route("roles.store"), {
         onSuccess: () => form.reset(), // Reset form on success
     });
@@ -56,41 +85,77 @@ const createRole = () => {
         </template>
 
         <v-form @submit.prevent="createRole">
-            <v-card class="mx-auto pa-3" :title="$t('global.roles.create_title')"
-                :subtitle="$t('global.roles.create_subtitle')">
-                <v-card-text>
+            <v-card class="mx-auto pa-3" :title="$t('global.roles.create_title')">
+                <v-divider class="mx-4" />
+
+                <v-card-text class="mt-3">
                     <v-text-field v-model="form.title" :label="$t('global.common.fields.name')" outlined dense required
-                        variant="outlined" :error-messages="form.errors.title" class="mb-4" />
+                        variant="outlined" :error-messages="form.errors.title" class="mb-5" />
 
                     <v-text-field v-model="form.description" :label="$t('global.common.fields.description')" outlined
-                        dense required variant="outlined" :error-messages="form.errors.description" class="mb-4" />
+                        dense required variant="outlined" :error-messages="form.errors.description" class="mb-5" />
 
+                    <!-- Permissions Selection -->
                     <v-card :title="$t('global.roles.permissions')" :subtitle="form.errors.permissions
-                            ? form.errors.permissions
-                            : $t('global.roles.select_permissions')
+                        ? form.errors.permissions
+                        : $t('global.roles.select_permissions')
                         " variant="outlined" :color="form.errors.permissions ? 'red' : ''" :style="form.errors.permissions
-                                ? ''
-                                : 'border: 1px solid #6b728099'
+                            ? ''
+                            : 'border: 1px solid #6b728099'
                             ">
-                        <v-card-text>
-                            <v-row dense>
-                                <v-col v-for="permission in form.permissions" :key="permission.id" cols="12" md="3">
-                                    <v-checkbox v-model="permission.selected" :label="permission.description"
-                                        hide-details />
-                                </v-col>
-                            </v-row>
+                        <v-card-text class="mt-5">
+                            <!-- Global Select/Deselect buttons -->
+                            <div class="mb-5">
+                                <v-btn size="small" color="primary" variant="tonal" @click="selectAll" class="mr-2">
+                                    {{ $t("global.actions.select_all") }}
+                                </v-btn>
+                                <v-btn size="small" color="secondary" variant="tonal" @click="deselectAll">
+                                    {{ $t("global.actions.deselect_all") }}
+                                </v-btn>
+                            </div>
+
+                            <!-- Grouped Permissions with Expansion Panels -->
+                            <v-expansion-panels variant="accordion" multiple>
+                                <v-expansion-panel v-for="(permissions, groupName) in groupedPermissions"
+                                    :key="groupName" :value="groupName">
+                                    <v-expansion-panel-title>
+                                        <div class="d-flex align-center justify-space-between" style="width: 100%">
+                                            <span class="text-capitalize font-weight-medium">
+                                                {{ $t(`global.roles.groups.${groupName}`, groupName) }}
+                                            </span>
+
+                                            <v-chip size="small" color="primary" variant="tonal">
+                                                {{permissions.filter(p => p.selected).length}} / {{ permissions.length
+                                                }}
+                                            </v-chip>
+                                        </div>
+                                    </v-expansion-panel-title>
+                                    <v-expansion-panel-text>
+
+                                        <v-row dense>
+                                            <v-col v-for="permission in permissions" :key="permission.id" cols="12"
+                                                sm="6" md="4" lg="3">
+                                                <v-checkbox v-model="permission.selected"
+                                                    :label="$t(`global.${permission.title}`)" hide-details
+                                                    density="compact" />
+                                            </v-col>
+                                        </v-row>
+                                    </v-expansion-panel-text>
+                                </v-expansion-panel>
+                            </v-expansion-panels>
                         </v-card-text>
                     </v-card>
                 </v-card-text>
 
-                <v-card-actions class="px-4">
-                    <v-btn :href="route('roles.index')" color="primary" variant="tonal">{{ $t("global.actions.cancel")
-                        }}</v-btn>
+                <v-card-actions class="px-5">
+                    <v-btn :href="route('roles.index')" color="primary" variant="tonal">{{
+                        $t("global.actions.cancel")
+                    }}</v-btn>
 
                     <v-spacer></v-spacer>
 
                     <v-btn v-if="$page.props.auth.can.roles_create" type="submit" color="primary" variant="flat"
-                        class="mt-4">{{
+                        class="mt-5">{{
                             $t("global.actions.create") }}</v-btn>
                 </v-card-actions>
             </v-card>

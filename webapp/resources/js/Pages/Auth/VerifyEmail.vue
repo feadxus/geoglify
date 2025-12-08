@@ -22,45 +22,29 @@ const verificationLinkSent = computed(
 
 <template>
     <AuthLayout>
+
         <Head :title="$t('global.auth.verify_email_title')" />
 
-        <h6 class="text-h6 text-center mb-4">
+        <h6 class="text-h6 text-center mb-5">
             {{ $t("global.auth.verify_email_title") }}
         </h6>
 
-        <div class="text-body-1 text-medium-emphasis mb-6">
+        <div class="text-body-1 text-medium-emphasis mb-5">
             {{ $t("global.auth.verify_email_message") }}
         </div>
 
-        <v-alert
-            v-if="verificationLinkSent"
-            class="mb-4"
-            variant="tonal"
-            color="success"
-        >
+        <v-alert v-if="verificationLinkSent" class="mb-5" variant="tonal" color="success">
             {{ $t("global.auth.verification_link_sent") }}
         </v-alert>
 
         <form @submit.prevent="submit">
-            <v-btn
-                color="primary"
-                :loading="form.processing"
-                block
-                class="mt-4"
-                variant="flat"
-                size="large"
-                type="submit"
-            >
+            <v-btn color="primary" :loading="form.processing" block class="mt-5" variant="flat" size="large"
+                type="submit">
                 {{ $t("global.auth.resend_verification") }}
             </v-btn>
 
-            <div class="d-flex justify-center mt-4">
-                <Link
-                    :href="route('logout')"
-                    method="post"
-                    as="button"
-                    class="text-primary text-decoration-none"
-                >
+            <div class="d-flex justify-center mt-5">
+                <Link :href="route('logout')" method="post" as="button" class="text-primary text-decoration-none">
                     {{ $t("global.auth.logout") }}
                 </Link>
             </div>

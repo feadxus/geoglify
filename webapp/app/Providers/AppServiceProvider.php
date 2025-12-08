@@ -28,10 +28,10 @@ class AppServiceProvider extends ServiceProvider
         }
 
         try {
-            foreach (Permission::pluck('title') as $permission) {
-                Gate::define($permission, function ($user) use ($permission) {
-                    return $user->roles()->whereHas('permissions', function ($q) use ($permission) {
-                        $q->where('title', $permission);
+            foreach (Permission::pluck('code') as $permissionCode) {
+                Gate::define($permissionCode, function ($user) use ($permissionCode) {
+                    return $user->roles()->whereHas('permissions', function ($q) use ($permissionCode) {
+                        $q->where('code', $permissionCode);
                     })->count() > 0;
                 });
             }

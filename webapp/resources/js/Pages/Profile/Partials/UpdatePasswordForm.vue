@@ -35,29 +35,27 @@ const updatePassword = () => {
             {{ $t("global.profile.update_password_title") }}
         </v-card-title>
 
-        <v-card-subtitle>
-            {{ $t("global.profile.update_password_description") }}
-        </v-card-subtitle>
+        <v-divider class="mx-4" />
 
         <v-card-text class="mt-5">
             <v-text-field ref="currentPasswordInput" v-model="form.current_password"
-                :label="$t('global.profile.fields.current_password')" outlined dense required autofocus
-                variant="outlined" type="password" autocomplete="current-password"
-                :error-messages="form.errors.current_password" class="mb-4"></v-text-field>
+                :label="$t('global.profile.fields.current_password')" variant="outlined" dense required autofocus
+                autocomplete="new-password" type="password" :error-messages="form.errors.current_password"
+                class="mb-5"></v-text-field>
 
             <v-text-field ref="passwordInput" v-model="form.password" :label="$t('global.profile.fields.new_password')"
-                outlined dense required variant="outlined" autocomplete="new-password" type="password"
-                :error-messages="form.errors.password" class="mb-4"></v-text-field>
+                variant="outlined" autocomplete="new-password" type="password" :error-messages="form.errors.password"
+                class="mb-5"></v-text-field>
 
             <v-text-field v-model="form.password_confirmation" :label="$t('global.common.fields.password_confirmation')"
-                outlined dense required variant="outlined" autocomplete="new-password" type="password"
-                :error-messages="form.errors.password_confirmation" class="mb-4"></v-text-field>
+                variant="outlined" autocomplete="new-password" type="password"
+                :error-messages="form.errors.password_confirmation" class="mb-5"></v-text-field>
 
-            <v-alert v-if="form.recentlySuccessful" class="text-sm text-gray-600 dark:text-gray-400">{{
+            <v-alert v-if="form.recentlySuccessful" class="text-sm" type="success">{{
                 $t("global.common.saved") }}</v-alert>
         </v-card-text>
 
-        <v-card-actions class="px-4">
+        <v-card-actions class="px-5">
             <v-spacer></v-spacer>
             <v-btn :readonly="form.processing" color="primary" variant="flat" :disabled="form.processing"
                 @click="updatePassword">{{ $t("global.actions.save") }}</v-btn>

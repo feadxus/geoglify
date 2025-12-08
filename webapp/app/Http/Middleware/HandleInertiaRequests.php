@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Models\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
 
@@ -36,23 +37,25 @@ class HandleInertiaRequests extends Middleware
         $can = [];
 
         if ($user) {
-            // Get all permissions
-            $allPermissions = Permission::all()->pluck('title');
+            // Get all permissions (cached for 1 hour)
+            $allPermissions = Cache::remember('permissions_list', 3600, function () {
+                return Permission::all()->pluck('code');
+            });
 
-            // If user is admin (id = 1), grant all permissions
-            if ($user->id === 1) {
-                $can = $allPermissions->mapWithKeys(function ($permission) {
-                    return [$permission => true]; // Concede todas as permissões
+            // If user is admin, grant all permissions
+            if ($user->isAdmin()) {
+                $can = $allPermissions->mapWithKeys(function ($permissionCode) {
+                    return [$permissionCode => true];
                 })->all();
             } else {
-                // Get user permissions
+                // Get user permissions (eager loaded for performance)
                 $userPermissions = $user->roles()->with('permissions')->get()->flatMap(function ($role) {
                     return $role->permissions;
-                })->pluck('title');
+                })->pluck('code');
 
                 // Map all permissions and check if the user has each one
-                $can = $allPermissions->mapWithKeys(function ($permission) use ($userPermissions) {
-                    return [$permission => $userPermissions->contains($permission)];
+                $can = $allPermissions->mapWithKeys(function ($permissionCode) use ($userPermissions) {
+                    return [$permissionCode => $userPermissions->contains($permissionCode)];
                 })->all();
             }
         }

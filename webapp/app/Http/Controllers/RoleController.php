@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateRoleRequest;
 use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 
 class RoleController extends Controller
@@ -32,7 +33,7 @@ class RoleController extends Controller
             $search = strtolower($validated['search'] ?? '');
 
             // Select specific fields from Roles table
-            $roles = Role::all();
+            $roles = Role::withCount('permissions')->get();
 
             // Filter and map roles using collections
             $filteredRoles = collect($roles)->filter(function ($role) use ($search) {
@@ -91,6 +92,9 @@ class RoleController extends Controller
 
         $role->permissions()->sync($request->permissions);
 
+        // Clear permissions cache
+        Cache::forget('permissions_list');
+
         return redirect()->route('roles.index');
     }
 
@@ -110,12 +114,18 @@ class RoleController extends Controller
 
         $role->permissions()->sync($request->permissions);
 
+        // Clear permissions cache
+        Cache::forget('permissions_list');
+
         return redirect()->route('roles.index');
     }
 
     public function destroy(Role $role)
     {
         $role->delete();
+
+        // Clear permissions cache
+        Cache::forget('permissions_list');
 
         return response()->json(['message' => 'Role deleted successfully']);
     }

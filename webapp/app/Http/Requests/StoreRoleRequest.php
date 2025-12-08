@@ -24,7 +24,20 @@ class StoreRoleRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string', 'max:255'],
-            'permissions' => ['required', 'array'],
+            'permissions' => ['required', 'array', 'min:1'],
+            'permissions.*' => ['required', 'integer', 'exists:permissions,id'],
+        ];
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     */
+    public function messages(): array
+    {
+        return [
+            'permissions.required' => 'At least one permission must be selected.',
+            'permissions.min' => 'At least one permission must be selected.',
+            'permissions.*.exists' => 'One or more selected permissions are invalid.',
         ];
     }
 }

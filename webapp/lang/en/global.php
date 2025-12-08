@@ -18,7 +18,7 @@ return [
     ],
 
     'navigation' => [
-        'dashboard' => 'Dashboard',
+        'dashboard' => 'Map',
         'users' => 'Users',
         'roles' => 'Roles',
         'configurations' => 'Configurations',
@@ -33,6 +33,8 @@ return [
         'cancel' => 'Cancel',
         'save' => 'Save',
         'confirm' => 'Confirm',
+        'select_all' => 'Select All',
+        'deselect_all' => 'Deselect All',
     ],
 
     'auth' => [
@@ -67,9 +69,7 @@ return [
     'users' => [
         'title' => 'Users',
         'create_title' => 'Create User',
-        'create_subtitle' => 'Create a new user',
         'edit_title' => 'Edit User',
-        'edit_subtitle' => 'Edit user details',
         'import' => 'Import',
         'delete_confirmation_title' => 'Are you sure you want to delete this account?',
         'delete_warning' => 'Once this account is deleted, all of its resources and data will be permanently deleted.',
@@ -83,17 +83,26 @@ return [
     'roles' => [
         'title' => 'Roles',
         'create_title' => 'Create Role',
-        'create_subtitle' => 'Create a new role',
         'edit_title' => 'Edit Role',
-        'edit_subtitle' => 'Edit role details',
         'permissions' => 'Permissions',
         'select_permissions' => 'Select permissions for the role',
+        'selected_permissions' => 'Selected Permissions',
+        'permissions_count' => 'Permissions',
         'delete_confirmation_title' => 'Are you sure you want to delete this role?',
         'delete_warning' => 'Once this role is deleted, all of its resources and data will be permanently deleted.',
+        'created_successfully' => 'Role created successfully',
+        'updated_successfully' => 'Role updated successfully',
+        'deleted_successfully' => 'Role deleted successfully',
 
         'fields' => [
             'title' => 'Title',
             'description' => 'Description',
+            'permissions' => 'Permissions',
+        ],
+
+        'groups' => [
+            'users' => 'Users',
+            'roles' => 'Roles',
         ],
     ],
 
@@ -115,6 +124,20 @@ return [
         'fields' => [
             'current_password' => 'Current Password',
             'new_password' => 'New Password',
+            'password' => 'Password',
         ],
+    ],
+
+    'permissions' => [
+        'users_create' => 'Create users',
+        'users_edit' => 'Edit users',
+        'users_destroy' => 'Delete users',
+        'users_show' => 'View users',
+        'users_list' => 'List users',
+        'roles_create' => 'Create roles',
+        'roles_edit' => 'Edit roles',
+        'roles_destroy' => 'Delete roles',
+        'roles_show' => 'View roles',
+        'roles_list' => 'List roles',
     ],
 ];

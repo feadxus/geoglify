@@ -5,7 +5,6 @@ return [
         'home' => 'Início',
         'search' => 'Pesquisar',
         'app_name' => 'Geoglify',
-        'app_subtitle' => 'Feito para durar',
         'powered_by' => 'Desenvolvido por GEOGLIFY v1.0.0',
         'saved' => 'Guardado.',
 
@@ -19,7 +18,7 @@ return [
     ],
 
     'navigation' => [
-        'dashboard' => 'Painel de Controlo',
+        'dashboard' => 'Mapa',
         'users' => 'Utilizadores',
         'roles' => 'Funções',
         'configurations' => 'Configurações',
@@ -34,6 +33,8 @@ return [
         'cancel' => 'Cancelar',
         'save' => 'Guardar',
         'confirm' => 'Confirmar',
+        'select_all' => 'Selecionar Tudo',
+        'deselect_all' => 'Desselecionar Tudo',
     ],
 
     'auth' => [
@@ -68,9 +69,7 @@ return [
     'users' => [
         'title' => 'Utilizadores',
         'create_title' => 'Criar Utilizador',
-        'create_subtitle' => 'Criar um novo utilizador',
         'edit_title' => 'Editar Utilizador',
-        'edit_subtitle' => 'Editar detalhes do utilizador',
         'import' => 'Importar',
         'delete_confirmation_title' => 'Tem a certeza de que deseja eliminar esta conta?',
         'delete_warning' => 'Assim que esta conta for eliminada, todos os seus recursos e dados serão permanentemente eliminados.',
@@ -84,17 +83,26 @@ return [
     'roles' => [
         'title' => 'Funções',
         'create_title' => 'Criar Função',
-        'create_subtitle' => 'Criar uma nova função',
         'edit_title' => 'Editar Função',
-        'edit_subtitle' => 'Editar detalhes da função',
         'permissions' => 'Permissões',
         'select_permissions' => 'Selecionar permissões para a função',
+        'selected_permissions' => 'Permissões Selecionadas',
+        'permissions_count' => 'Permissões',
         'delete_confirmation_title' => 'Tem a certeza de que deseja eliminar esta função?',
         'delete_warning' => 'Assim que esta função for eliminada, todos os seus recursos e dados serão permanentemente eliminados.',
+        'created_successfully' => 'Função criada com sucesso',
+        'updated_successfully' => 'Função atualizada com sucesso',
+        'deleted_successfully' => 'Função eliminada com sucesso',
 
         'fields' => [
             'title' => 'Título',
             'description' => 'Descrição',
+            'permissions' => 'Permissões',
+        ],
+
+        'groups' => [
+            'users' => 'Utilizadores',
+            'roles' => 'Funções',
         ],
     ],
 
@@ -116,6 +124,20 @@ return [
         'fields' => [
             'current_password' => 'Palavra-passe Atual',
             'new_password' => 'Nova Palavra-passe',
+            'password' => 'Palavra-passe'
         ],
+    ],
+
+    'permissions' => [
+        'users_create' => 'Criar utilizadores',
+        'users_edit' => 'Editar utilizadores',
+        'users_destroy' => 'Eliminar utilizadores',
+        'users_show' => 'Ver utilizadores',
+        'users_list' => 'Listar utilizadores',
+        'roles_create' => 'Criar funções',
+        'roles_edit' => 'Editar funções',
+        'roles_destroy' => 'Eliminar funções',
+        'roles_show' => 'Ver funções',
+        'roles_list' => 'Listar funções',
     ],
 ];
