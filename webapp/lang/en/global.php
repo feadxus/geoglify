@@ -74,6 +74,8 @@ return [
             'enter_code' => 'Please enter the 6-digit code sent to {email}',
             'verify_login' => 'Verify & Login',
             'no_code' => 'Didn\'t receive code?',
+                'invalid' => 'The provided one-time password is not valid.',
+                'expired' => 'The one-time password has expired.',
             'resend' => 'Resend',
         ],
     ],

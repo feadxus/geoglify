@@ -32,6 +32,19 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
+        // If authentication set a pending OTP (we validated the password
+        // but did not log the user in yet), redirect user to the OTP
+        // verification flow instead of completing the login.
+        $pendingEmail = $request->session()->pull('otp.pending_email');
+
+        if ($pendingEmail) {
+            // Regenerate session to avoid fixation but keep OTP pending state
+            // cleared (we pulled it) — the OTP verification will log the user in.
+            $request->session()->regenerate();
+
+            return redirect()->route('login.otp.verify', ['email' => $pendingEmail]);
+        }
+
         $request->session()->regenerate();
 
         return redirect('/');

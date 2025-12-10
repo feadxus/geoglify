@@ -81,8 +81,8 @@ class OneTimePasswordController extends Controller
 
         throw ValidationException::withMessages([
             'otp' => match ($result) {
-                ConsumeOneTimePasswordResult::OneTimePasswordExpired => __('The one-time password has expired.'),
-                default => __('The provided one-time password is not valid.'),
+                ConsumeOneTimePasswordResult::OneTimePasswordExpired => __('global.auth.otp.expired'),
+                default => __('global.auth.otp.invalid'),
             },
         ]);
     }

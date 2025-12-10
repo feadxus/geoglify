@@ -145,19 +145,6 @@
             "roles_list": "List roles"
         }
     },
-    "one-time-passwords": {
-        "mail_subject": "One-Time Access Code",
-        "greeting": "Hello!",
-        "intro": "This is your one-time access code to use at :url:",
-        "code_label": "Your code is:",
-        "security_warning": "If you did not request this code, please change your password immediately or contact support.",
-        "verify_button": "Verify Code",
-        "notifications": {
-            "title": "One-time access code",
-            "intro": "This is your one-time access code to use at :url:",
-            "outro": "To protect your account, do not share this code with anyone. If you did not request this code, you can safely ignore this email."
-        }
-    },
     "pagination": {
         "previous": "&laquo; Previous",
         "next": "Next &raquo;"

@@ -144,19 +144,6 @@
             "roles_list": "Listar funções"
         }
     },
-    "one-time-passwords": {
-        "mail_subject": "[GEOGLIFY] Código único de acesso",
-        "greeting": "Olá!",
-        "intro": "Este é o seu código único de acesso para usar em :url:",
-        "code_label": "O seu código é:",
-        "security_warning": "Para proteger a sua conta, não partilhe este código com ninguém. Se não solicitou este código, pode ignorar este e-mail com segurança.",
-        "verify_button": "Validar código",
-        "notifications": {
-            "title": "Código único de acesso",
-            "intro": "Este é o seu código único de acesso para usar em :url:",
-            "outro": "Para proteger a sua conta, não partilhe este código com ninguém. Se não solicitou este código, pode ignorar este e-mail com segurança."
-        }
-    },
     "pagination": {
         "previous": "&laquo; Anterior",
         "next": "Próximo &raquo;"

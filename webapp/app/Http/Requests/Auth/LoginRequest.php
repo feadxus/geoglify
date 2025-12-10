@@ -4,6 +4,7 @@ namespace App\Http\Requests\Auth;
 
 use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -39,7 +40,34 @@ class LoginRequest extends FormRequest
      */
     protected function attemptDatabaseAuthentication(array $credentials): bool
     {
-        return Auth::attempt($credentials, $this->boolean('remember'));
+        // Validate credentials without logging the user in so we can require
+        // a one-time password (OTP) for new sessions. If the password is
+        // correct, send an OTP and mark the session as pending verification.
+
+        $user = User::where('email', $credentials['email'] ?? null)->first();
+
+        if (! $user) {
+            return false;
+        }
+
+        if (! Hash::check($credentials['password'] ?? '', $user->password)) {
+            return false;
+        }
+
+        // Password is valid — send OTP and store pending email in session.
+        // The actual login will happen after successful OTP verification.
+        try {
+            $user->sendOneTimePassword();
+        } catch (\Throwable $e) {
+            // If sending OTP fails, log the error and deny authentication.
+            // Let the normal authentication flow treat this as a failure.
+            report($e);
+            return false;
+        }
+
+        session()->put('otp.pending_email', $user->email);
+
+        return true;
     }
 
     /**
