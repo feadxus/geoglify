@@ -1,3 +1,4 @@
+
 <template>
     <div ref="mapContainer" class="map-container"></div>
 </template>
@@ -6,6 +7,9 @@
 import { onMounted, onUnmounted, ref, shallowRef } from "vue";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
+import { Protocol } from "pmtiles";
+
+import { protomapsStyle } from "./protomaps-style.js";
 
 const mapContainer = ref(null);
 const map = shallowRef(null);
@@ -22,11 +26,18 @@ const props = defineProps({
 });
 
 onMounted(() => {
+    const protocol = new Protocol();
+    maplibregl.addProtocol("pmtiles", protocol.tile);
+
     map.value = new maplibregl.Map({
         container: mapContainer.value,
-        style: "https://demotiles.maplibre.org/style.json", // Using a demo style for now
+        style: protomapsStyle,
         center: props.center,
         zoom: props.zoom,
+        maxBounds: [
+            [-8.7368, 41.0845], // Southwest coordinates
+            [-8.5536, 41.2357]  // Northeast coordinates
+        ]
     });
 
     map.value.addControl(new maplibregl.NavigationControl());

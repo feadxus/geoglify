@@ -73,6 +73,8 @@
                 "enter_code": "Por favor, introduza o código de 6 dígitos enviado para {email}",
                 "verify_login": "Verificar e Entrar",
                 "no_code": "Não recebeu o código?",
+                "invalid": "O código de acesso único fornecido não é válido.",
+                "expired": "O código de acesso único expirou.",
                 "resend": "Reenviar"
             }
         },

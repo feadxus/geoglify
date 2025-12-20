@@ -1,0 +1,5 @@
+pmtiles:
+  paths:
+    - /data/porto.pmtiles
+server:
+  allowed_origins: ["*"]

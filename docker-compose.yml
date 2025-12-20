@@ -52,6 +52,30 @@ services:
         volumes:
             - redis-data:/data
 
+    martin:
+        image: maplibre/martin:latest
+        container_name: martin
+        restart: unless-stopped
+        ports:
+            - "8081:3000"
+        command: --config /config.yaml
+        volumes:
+            - ./pmtiles:/data
+            - ./martin/config.yaml:/config.yaml
+        depends_on:
+            downloader:
+                condition: service_completed_successfully
+
+    downloader:
+        image: protomaps/go-pmtiles:latest
+        container_name: pmtiles-downloader
+        volumes:
+            - ./pmtiles:/data
+        entrypoint: [ "/go-pmtiles" ]
+        command: [ "extract", "https://build.protomaps.com/20251219.pmtiles", "/data/porto.pmtiles", "--bbox=-8.7368,41.0845,-8.5536,41.2357" ]
+        depends_on:
+            - martin
+
 volumes:
     vendor-data:
     database-data:
