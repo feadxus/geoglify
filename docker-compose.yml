@@ -1,84 +1,84 @@
 services:
-    webapp:
-        build: ./webapp
-        image: geoglify/webapp
-        container_name: webapp
-        restart: always
-        environment:
-            PHP_OPCACHE_ENABLE: 0
-            PRODUCTION: 0
-        ports:
-            - 8080:80
-            - 5173:5173
-        volumes:
-            - ./webapp:/var/www/webapp
-            - node-modules-data:/var/www/webapp/node_modules
-            - vendor-data:/var/www/webapp/vendor
-        healthcheck:
-            test: [ 'CMD', 'curl', '-f', 'http://webapp/' ]
-            interval: 30s
-            timeout: 10s
-            retries: 3
-        depends_on:
-            - database
-            - redis
+  webapp:
+    build: ./webapp
+    image: geoglify/webapp
+    container_name: webapp
+    restart: always
+    environment:
+      PHP_OPCACHE_ENABLE: 0
+      PRODUCTION: 0
+    ports:
+      - 8080:80
+      - 5173:5173
+    volumes:
+      - ./webapp:/var/www/webapp
+      - node-modules-data:/var/www/webapp/node_modules
+      - vendor-data:/var/www/webapp/vendor
+    healthcheck:
+      test: [ 'CMD', 'curl', '-f', 'http://webapp/' ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      - database
+      - redis
 
-    database:
-        build: ./database
-        image: geoglify/database
-        restart: always
-        container_name: database
-        ports:
-            - '5432:5432'
-        volumes:
-            - database-data:/var/lib/postgresql/data
+  database:
+    build: ./database
+    image: geoglify/database
+    restart: always
+    container_name: database
+    ports:
+      - '5432:5432'
+    volumes:
+      - database-data:/var/lib/postgresql/data
 
-    mailpit:
-        image: axllent/mailpit:latest
-        container_name: mailpit
-        restart: always
-        ports:
-            - '8025:8025'
-            - '1025:1025'
-        volumes:
-            - mailpit-data:/data
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: mailpit
+    restart: always
+    ports:
+      - '8025:8025'
+      - '1025:1025'
+    volumes:
+      - mailpit-data:/data
 
-    redis:
-        image: redis:8.4.0
-        container_name: redis
-        restart: always
-        ports:
-            - '6379:6379'
-        volumes:
-            - redis-data:/data
+  redis:
+    image: redis:8.4.0
+    container_name: redis
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis-data:/data
 
-    martin:
-        image: maplibre/martin:latest
-        container_name: martin
-        restart: unless-stopped
-        ports:
-            - "8081:3000"
-        command: --config /config.yaml
-        volumes:
-            - ./pmtiles:/data
-            - ./martin/config.yaml:/config.yaml
-        depends_on:
-            downloader:
-                condition: service_completed_successfully
+  martin:
+    image: maplibre/martin:latest
+    container_name: martin
+    restart: unless-stopped
+    ports:
+      - "8081:3000"
+    command: --config /config.yaml
+    volumes:
+      - ./pmtiles:/data
+      - ./martin/config.yaml:/config.yaml
+    depends_on:
+      downloader:
+        condition: service_completed_successfully
 
-    downloader:
-        image: protomaps/go-pmtiles:latest
-        container_name: pmtiles-downloader
-        volumes:
-            - ./pmtiles:/data
-        entrypoint: [ "/go-pmtiles" ]
-        command: [ "extract", "https://build.protomaps.com/20251219.pmtiles", "/data/porto.pmtiles", "--bbox=-8.7368,41.0845,-8.5536,41.2357" ]
-        depends_on:
-            - martin
+  downloader:
+    image: protomaps/go-pmtiles:latest
+    container_name: pmtiles-downloader
+    volumes:
+      - ./pmtiles:/data
+    entrypoint: [ "/go-pmtiles" ]
+    command: [ "extract", "https://build.protomaps.com/20251219.pmtiles", "/data/porto.pmtiles", "--bbox=-8.7368,41.0845,-8.5536,41.2357" ]
+    depends_on:
+      - martin
 
 volumes:
-    vendor-data:
-    database-data:
-    node-modules-data:
-    mailpit-data:
-    redis-data:
+  vendor-data:
+  database-data:
+  node-modules-data:
+  mailpit-data:
+  redis-data:
