@@ -35,12 +35,6 @@ jobs:
           rclone version
           rclone listremotes
 
-      - name: Build Webapp Image
-        run: |
-          docker build \
-            -t geoglify-webapp:latest \
-            ./webapp
-
       - name: Build Database Image
         run: |
           docker build \
@@ -55,7 +49,6 @@ jobs:
         run: |
           docker save \
             geoglify-webapp:latest \
-            geoglify-database:latest \
             -o all_images.tar
 
       - name: Compress Images
