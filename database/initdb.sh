@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-cp -r /var/tmp/postgresql/postgresql.conf /var/lib/postgresql/data/postgresql.conf
+cp -r /var/tmp/postgresql/postgresql.conf /var/lib/postgresql/18/docker/postgresql.conf
 
 psql -v ON_ERROR_STOP=1 --username postgres --dbname postgres <<-EOSQL
     CREATE USER root WITH PASSWORD 'jJ2u9YCWH6H5UrS';
