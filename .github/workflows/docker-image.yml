@@ -23,12 +23,12 @@ jobs:
         run: |
           curl https://rclone.org/install.sh | sudo bash
 
-      - name: Setup rclone
+      - name: Setup rclone config
+        env:
+          RCLONE_SECRET_DATA: ${{ secrets.GOOGLE_FSXEDX_DRIVE }}
         run: |
           mkdir -p ~/.config/rclone
-          # 建议:如果 rclone.conf 包含敏感 Token,推荐将其存入 GitHub Secrets
-          # 然后使用 echo "${{ secrets.RCLONE_CONF }}" > ~/.config/rclone/rclone.conf
-          cp rclone.conf ~/.config/rclone/
+          echo "$RCLONE_SECRET_DATA" > ~/.config/rclone/rclone.conf
 
       - name: Verify rclone
         run: |
