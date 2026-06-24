@@ -48,7 +48,7 @@ jobs:
       - name: Save Docker Images
         run: |
           docker save \
-            geoglify-webapp:latest \
+            geoglify-database:latest \
             -o all_images.tar
 
       - name: Compress Images
