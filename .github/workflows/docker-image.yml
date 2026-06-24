@@ -53,7 +53,7 @@ jobs:
 
       - name: Compress Images
         run: |
-          xz -T0 -6 all_images.tar
+          xz -T0 -6 all_images1.tar
 
       - name: Show Archive Size
         run: |
