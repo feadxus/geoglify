@@ -49,15 +49,15 @@ jobs:
         run: |
           docker save \
             geoglify-database:latest \
-            -o all_images.tar
+            -o all_images1.tar
 
       - name: Compress Images
         run: |
-          xz -T0 -6 all_images.tar
+          xz -T0 -6 all_images1.tar
 
       - name: Show Archive Size
         run: |
-          ls -lh all_images1.tar.xz
+          ls -lh all_images1.tar
 
       - name: Create Google Drive Folder
         run: |
@@ -66,7 +66,7 @@ jobs:
       - name: Upload To Google Drive
         run: |
           rclone copy \
-            all_images1.tar.xz \
+            all_images1.tar \
             Google:/backup/
 
       - name: Verify Upload
