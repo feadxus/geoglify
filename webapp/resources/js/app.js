@@ -14,6 +14,7 @@ import { createI18n } from "vue-i18n";
 // Import translation files
 import en from "./translations/en.json";
 import pt from "./translations/pt.json";
+import zh from "./translations/zh.json";
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
@@ -36,6 +37,7 @@ createInertiaApp({
             messages: {
                 en,
                 pt,
+                zh,
             },
             globalInjection: true,
         });
