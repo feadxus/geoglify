@@ -14,7 +14,7 @@ class LocaleController extends Controller
         $locale = $request->input('locale', 'en');
 
         // Validate locale
-        if (! in_array($locale, ['en', 'pt'])) {
+        if (! in_array($locale, ['en', 'pt', 'zh'])) {
             $locale = 'en';
         }
 
