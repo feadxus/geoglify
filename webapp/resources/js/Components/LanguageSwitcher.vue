@@ -11,6 +11,7 @@
             </v-btn>
         </template>
         <v-list>
+            <!-- 英文选项 -->
             <v-list-item
                 @click="changeLocale('en')"
                 :active="locale === 'en'"
@@ -24,6 +25,23 @@
                 </template>
                 <v-list-item-title>English</v-list-item-title>
             </v-list-item>
+
+            <!-- 中文选项 -->
+            <v-list-item
+                @click="changeLocale('zh')"
+                :active="locale === 'zh'"
+            >
+                <template v-slot:prepend>
+                    <img
+                        :src="cnFlag"
+                        alt="简体中文"
+                        style="width: 24px; height: 16px; margin-right: 8px;"
+                    />
+                </template>
+                <v-list-item-title>简体中文</v-list-item-title>
+            </v-list-item>
+
+            <!-- 葡萄牙语选项 -->
             <v-list-item
                 @click="changeLocale('pt')"
                 :active="locale === 'pt'"
@@ -46,12 +64,14 @@ import { useI18n } from 'vue-i18n';
 import { router } from '@inertiajs/vue3';
 import US from 'country-flag-icons/string/3x2/US';
 import PT from 'country-flag-icons/string/3x2/PT';
+import CN from 'country-flag-icons/string/3x2/CN';
 
 const { locale } = useI18n();
 
 // Convert SVG strings to data URLs
 const usFlag = `data:image/svg+xml;base64,${btoa(US)}`;
 const ptFlag = `data:image/svg+xml;base64,${btoa(PT)}`;
+const cnFlag = `data:image/svg+xml;base64,${btoa(CN)}`;
 
 const changeLocale = (newLocale) => {
     locale.value = newLocale;
