@@ -1,0 +1,170 @@
+services: # 📦 定义开始:下面是所有的容器服务
+# ————————————————————————————————————————————————————————————————————————————————🖼 镜像(1️⃣)
+  webapp:                                                                       # 🌐 Web应用服务(主程序)
+    build: ./database
+    image: geoglify-webapp:latest                                               # 🏷️ 镜像名称:给构建好的镜像起名叫 geoglify/webapp
+    container_name: webapp                                                      # 📛 容器名称:容器运行后的名字叫 webapp
+    restart: unless-stopped                                                     # ♻️ 只要容器不是被你手动停掉的,它就会无限尝试重启.
+    logging:                                                                    # ✍🏻 定义日志配置
+      driver: json-file                                                         # 📴 "none"表示不记录任何日志,使用"json-file",表示输出"json"日志类型
+      options:                                                                  # 🗞️ 定义保存行为
+        max-size: "10m"                                                         # 📏 限制日志文件大小
+        max-file: "3"                                                           # 🗂 限制保留的日志文件个数
+    depends_on:                                                                 # 🔗 启动依赖:必须等谁先启动
+      - database                                                                # ⏳ 必须等数据库容器启动,我再启动
+      - redis                                                                   # ⏳ 必须等缓存容器启动,我再启动
+    ports:                                                                      # 🔌 端口映射:[宿主机端口 : 容器内端口]
+      - 9862:80                                                                 # 🌐 端口映射
+      - 9863:5173                                                               # 🌐 端口映射
+    volumes:                                                                    # 📂 数据卷挂载:实现代码实时同步和数据持久化
+      - ./webapp:/var/www/webapp                                                # 🔄 实时同步:把本地的代码目录挂载进去,修改代码立即生效
+      - ./webapp/conf.d/nginx/default.conf:/etc/nginx/nginx.conf                # 🌐 映射 nginx 修改文件
+    healthcheck:                                                                # 🏥 健康检查:让 Docker 监控这个容器是不是真的活着
+      test: [ 'CMD', 'curl', '-f', 'http://webapp/' ]                           # 🔍 检查命令:定时访问容器首页,看看报不报错
+      interval: 30s                                                             # 🕒 检查间隔:每 30 秒检查一次
+      timeout: 10s                                                              # ⏱️ 超时时间:如果 10 秒没响应就判定为失败
+      retries: 3                                                                # ❌ 重试次数:连续失败 3 次就认为容器“不健康”了
+    environment:                                                                # ⚙️ 环境变量:传递给容器内部的配置
+      - PHP_OPCACHE_ENABLE=1                                                    # 🛑 关闭 PHP Opcache 缓存(方便开发时修改代码立即生效)
+      - PRODUCTION=1                                                            # 🧪 开发模式:0 生产环境:1 表示现在是本地开发环境还是非生产环境
+      - HTTP_PROXY=${HTTP_PROXY:-http://10.3.3.3:8118}                          # 🚇 设置 HTTP 代理环境变量,容器内的应用会通过该代理访问外部 HTTP 服务.
+      - HTTPS_PROXY=${HTTPS_PROXY:-http://10.3.3.3:8118}                        # 🚇 设置 HTTPS 代理环境变量,容器内的应用会通过该代理访问外部 HTTPS 服务.
+      - NO_PROXY=${NO_PROXY:-localhost,127.0.0.1,host.docker.internal,chromadb,searxng,ntfy,.local,10.0.0.0/8,172.16.0.0/12,172.17.0.0/16}  # 🚫 内网不走代理
+      - http_proxy=${HTTP_PROXY:-http://10.3.3.3:8118}                          # 🚇 设置 HTTP 代理环境变量,容器内的应用会通过该代理访问外部 HTTP 服务.
+      - https_proxy=${HTTPS_PROXY:-http://10.3.3.3:8118}                        # 🚇 设置 HTTPS 代理环境变量,容器内的应用会通过该代理访问外部 HTTPS 服务.
+      - no_proxy=${NO_PROXY:-localhost,127.0.0.1,host.docker.internal,chromadb,searxng,ntfy,.local,10.0.0.0/8,172.16.0.0/12,172.17.0.0/16}  # 🚫 内网不走代理
+    networks:                                                                   # ✍🏻 定义的网络配置
+      docker-bridge:                                                            # 🔗 ♻️ 加入到指定网络
+        ipv4_address: 172.17.2.24                                               # ✍🏻 指定你想要的固定 IPv4
+
+# ————————————————————————————————————————————————————————————————————————————————🖼 镜像(2️⃣)
+  database:                                                                     # 🗄️ 数据库服务
+    image: geoglify-database:latest                                             # 🏷️ 镜像名称:本地构建出的镜像叫 geoglify/database
+    restart: unless-stopped                                                     # ♻️ 只要容器不是被你手动停掉的,它就会无限尝试重启.
+    container_name: database                                                    # 📛 容器名称:叫 database
+    logging:                                                                    # ✍🏻 定义日志配置
+      driver: json-file                                                         # 📴 "none"表示不记录任何日志,使用"json-file",表示输出"json"日志类型
+      options:                                                                  # 🗞️ 定义保存行为
+        max-size: "10m"                                                         # 📏 限制日志文件大小
+        max-file: "3"                                                           # 🗂 限制保留的日志文件个数
+    ports:                                                                      # 🔌 端口映射
+      - '9864:5432'                                                             # 🐘 把 PostgreSQL 数据库的 5432 端口映射出来,方便用客户端连接
+    volumes:                                                                    # 📂 数据卷挂载
+      - database-data:/var/lib/postgresql/data                                  # 💾 持久化:把数据库的数据存到数据卷里,防止容器删了数据丢失
+    networks:                                                                   # ✍🏻 定义的网络配置
+      docker-bridge:                                                            # 🔗 ♻️ 加入到指定网络
+        ipv4_address: 172.17.2.25                                               # ✍🏻 指定你想要的固定 IPv4
+
+# ————————————————————————————————————————————————————————————————————————————————🖼 镜像(3️⃣)
+  mailpit:                                                                      # 📧 邮件测试服务(拦截发出的邮件,方便开发调试)
+    image: axllent/mailpit:latest                                               # 💿 官方镜像:直接从远程拉取最新的 mailpit 镜像
+    container_name: mailpit                                                     # 📛 容器名称:叫 mailpit
+    restart: unless-stopped                                                     # ♻️ 只要容器不是被你手动停掉的,它就会无限尝试重启.
+    logging:                                                                    # ✍🏻 定义日志配置
+      driver: json-file                                                         # 📴 "none"表示不记录任何日志,使用"json-file",表示输出"json"日志类型
+      options:                                                                  # 🗞️ 定义保存行为
+        max-size: "10m"                                                         # 📏 限制日志文件大小
+        max-file: "3"                                                           # 🗂 限制保留的日志文件个数
+    ports:                                                                      # 🔌 端口映射
+      - '9865:8025'                                                             # 🖥️ 邮件后台网页端口:访问 localhost:8025 可以看发出的测试邮件
+      - '9866:1025'                                                             # 📨 SMTP 邮件发送端口:代码里发邮件往这个端口发
+    volumes:                                                                    # 📂 数据卷挂载
+      - mailpit-data:/data                                                      # 💾 持久化:保存测试邮件的历史数据
+    networks:                                                                   # ✍🏻 定义的网络配置
+      docker-bridge:                                                            # 🔗 ♻️ 加入到指定网络
+        ipv4_address: 172.17.2.26                                               # ✍🏻 指定你想要的固定 IPv4
+
+# ————————————————————————————————————————————————————————————————————————————————🖼 镜像(4️⃣)
+  redis:                                                                        # ⚡️ Redis 缓存服务
+    image: redis:8.4.0                                                          # 💿 官方镜像:使用指定版本 8.4.0 的 Redis 镜像
+    container_name: redis                                                       # 📛 容器名称:叫 redis
+    restart: unless-stopped                                                     # ♻️ 只要容器不是被你手动停掉的,它就会无限尝试重启.
+    logging:                                                                    # ✍🏻 定义日志配置
+      driver: json-file                                                         # 📴 "none"表示不记录任何日志,使用"json-file",表示输出"json"日志类型
+      options:                                                                  # 🗞️ 定义保存行为
+        max-size: "10m"                                                         # 📏 限制日志文件大小
+        max-file: "3"                                                           # 🗂 限制保留的日志文件个数
+    ports:                                                                      # 🔌 端口映射
+      - '9867:6379'                                                             # ⚡️ 映射 Redis 默认的 6379 端口
+    volumes:                                                                    # 📂 数据卷挂载
+      - redis-data:/data                                                        # 💾 持久化:保存 Redis 的缓存或队列数据
+    networks:                                                                   # ✍🏻 定义的网络配置
+      docker-bridge:                                                            # 🔗 ♻️ 加入到指定网络
+        ipv4_address: 172.17.2.27                                               # ✍🏻 指定你想要的固定 IPv4
+
+# ————————————————————————————————————————————————————————————————————————————————🖼 镜像(5️⃣)
+  martin:                                                                       # 🗺️ 💿 地图瓦片服务(地图 API 引擎)
+    image: ghcr.io/maplibre/martin:latest                                       # 💿 官方镜像:使用最新版的 martin 镜像
+    container_name: martin                                                      # 📛 容器名称
+    restart: unless-stopped                                                     # 🔄 重启策略:除非手动停止,否则它挂了就会自动重启
+    logging:                                                                    # ✍🏻 定义日志配置
+      driver: json-file                                                         # 📴 "none"表示不记录任何日志,使用"json-file",表示输出"json"日志类型
+      options:                                                                  # 🗞️ 定义保存行为
+        max-size: "10m"                                                         # 📏 限制日志文件大小
+        max-file: "3"                                                           # 🗂 限制保留的日志文件个数
+    ports:                                                                      # 🔌 端口映射
+      - "9868:3000"                                                             # 🗺️ 把容器内的 3000 地图服务端口映射到电脑的 8081
+    command:                                                                    # 💻 启动命令
+      - "--config"                                                              # 📄 指定 Martin 配置文件参数
+      - "/config.yaml"                                                          # 📂 使用容器内的 /config.yaml
+      - "--webui"                                                               # 🌐 启用 Martin Web UI
+      - "enable-for-all"                                                        # 🌍 允许所有客户端访问 Web UI（默认关闭）
+    volumes:                                                                    # 📂 数据卷挂载
+      - ./pmtiles:/data                                                         # 📂 指定 go-pmtiles 下载的地图文件夹位置,并使用它的地图❗️
+      - ./martin/config.yaml:/config.yaml                                       # 🗺️ 配置读取指定地图文件名
+    depends_on:                                                                 # 🔗 启动依赖
+      downloader:
+        condition: service_completed_successfully                               # ⚠️ 极其关键:必须等 downloader 容器"成功运行结束(下载完地图)"后, martin 容器才允许启动
+    networks:                                                                   # ✍🏻 定义的网络配置
+      docker-bridge:                                                            # 🔗 ♻️ 加入到指定网络
+        ipv4_address: 172.17.2.28                                               # ✍🏻 指定你想要的固定 IPv4
+
+# ————————————————————————————————————————————————————————————————————————————————🖼 镜像(6️⃣)
+  downloader:                                                                   # 📥 下载地图 pmtiles 文件到 data 目录
+    image: protomaps/go-pmtiles:latest                                          # 💿 官方镜像:使用 go-pmtiles 镜像
+    container_name: pmtiles-downloader                                          # 📛 容器名称
+    volumes:                                                                    # 📂 数据卷挂载
+      - ./pmtiles:/data                                                         # 📂 下载好的地图文件直接放到这里
+      - /etc/localtime:/etc/localtime:ro                                        # 🗺️ 同步宿主机的本地时间和时区偏移
+    dns:                                                                        # ✍🏻 定义"DNS"配置
+      - 10.3.3.1                                                                # 🫧 指定"DNS"的"IP"地址
+    entrypoint: [ "/go-pmtiles" ]
+    command: [ "serve", "/data/porto.pmtiles" ]                                 # 🗺️ 容器启动直接使用已经下载好的地图文件
+                                                                                # ⚠️ 警告 (porto.pmtiles) 的porto名称不能更改,也是接口的名称)
+    #command: [
+    #  "extract",
+    #  "https://build.protomaps.com/20250429.pmtiles",
+    #  "/data/porto.pmtiles",
+    #  "--bbox=-8.7368,41.0845,-8.5536,41.2357"
+    #]                                                                           # ⏬🗺️ 用于容器启动时下载地图
+                                                                                # 🛠️ 提取命令:从远程下载 20251219 的地图,并使用 --bbox= 选项裁剪出指定范围下载保存为 porto.pmtiles
+                                                                                # ✂️ 只裁剪指定区域范围作为保存:"--bbox=-8.7368,41.0845,-8.5536,41.2357"
+    environment:                                                                # ⚙️ 环境变量:传递给容器内部的配置
+      - PHP_OPCACHE_ENABLE=1                                                    # 🛑 关闭 PHP Opcache 缓存(方便开发时修改代码立即生效)
+      - PRODUCTION=1                                                            # 🧪 开发模式:0 生产环境:1 表示现在是本地开发环境还是非生产环境
+      #- HTTP_PROXY=${HTTP_PROXY:-http://10.3.3.3:8118}                          # 🚇 设置 HTTP 代理环境变量,容器内的应用会通过该代理访问外部 HTTP 服务.
+      #- HTTPS_PROXY=${HTTPS_PROXY:-http://10.3.3.3:8118}                        # 🚇 设置 HTTPS 代理环境变量,容器内的应用会通过该代理访问外部 HTTPS 服务.
+      #- NO_PROXY=${NO_PROXY:-localhost,127.0.0.1,host.docker.internal,chromadb,searxng,ntfy,.local,10.0.0.0/8,172.16.0.0/12,172.17.0.0/16}  # 🚫 内网不走代理
+      #- http_proxy=${HTTP_PROXY:-http://10.3.3.3:8118}                          # 🚇 设置 HTTP 代理环境变量,容器内的应用会通过该代理访问外部 HTTP 服务.
+      #- https_proxy=${HTTPS_PROXY:-http://10.3.3.3:8118}                        # 🚇 设置 HTTPS 代理环境变量,容器内的应用会通过该代理访问外部 HTTPS 服务.
+      #- no_proxy=${NO_PROXY:-localhost,127.0.0.1,host.docker.internal,chromadb,searxng,ntfy,.local,10.0.0.0/8,172.16.0.0/12,172.17.0.0/16}  # 🚫 内网不走代理
+      - TZ=Asia/Shanghai                                                        # 🗺️ 用环境变量锁定时区,另外一种书写方式:- TZ=Asia/Shanghai
+    restart: "no"                                                               # ❌ 不允许重启(避免重复下载)
+    depends_on: []                                                              # 🚫 不依赖任何服务(避免循环)
+    networks:                                                                   # ✍🏻 定义的网络配置
+      docker-bridge:                                                            # 🔗 ♻️ 加入到指定网络
+        ipv4_address: 172.17.2.29                                               # ✍🏻 指定你想要的固定 IPv4
+
+# ————————————————————————————————————————————————————————————————————————————————🖼 镜像(6️⃣)
+# .env 里还有一个 reverb 容器未配置,要需可加入
+
+# ————————————————————————————————————————————————————————————————————————————————🌐 网络管理
+networks:                                                                       # ✍🏻 定义网络配置
+  docker-bridge:                                                                # 🔗 自定义网络名称
+    external: true                                                              # 📢 外部宣告:告诉 Docker "这个网络我已经手动创建好了,直接用就行,别尝试新建或删除它!"
+
+volumes:                                                                        # 💾 数据卷声明列表(在上面被引用,用来真正存放和持久化数据的虚拟磁盘)
+  database-data:                                                                # 📁 存放 PostgreSQL 数据库文件的虚拟磁盘
+  node-modules-data:                                                            # 📁 存放前端 Node.js 依赖包的虚拟磁盘(geoglify-webapp:latest 并未使用它,而是使用 webapp 目录下的 node_modules 目录)
+  mailpit-data:                                                                 # 📁 存放测试邮件数据的虚拟磁盘
+  redis-data:                                                                   # 📁 存放 Redis 缓存数据的虚拟磁盘
