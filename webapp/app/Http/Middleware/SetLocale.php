@@ -28,7 +28,7 @@ class SetLocale
         }
 
         // Validate locale
-        if (!in_array($locale, ['en', 'pt'])) {
+        if (!in_array($locale, ['en', 'pt', 'zh'])) {
             $locale = 'en';
             session(['locale' => $locale]);
         }
