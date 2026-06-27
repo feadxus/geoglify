@@ -1,9 +1,16 @@
+// 地图瓦片服务(地图 API 引擎)
+const martinBaseUrl = "https://martin.eadx.com";
+
+// webapp 前端
+const geoglifyBaseUrl = "https://geoglify.eadx.com";
+
 export const protomapsStyle = {
     version: 8,
     sources: {
         protomaps: {
             type: "vector",
-            tiles: ["http://localhost:8081/porto/{z}/{x}/{y}"],
+            // tiles: ["http://localhost:8081/porto/{z}/{x}/{y}"],
+            tiles: [`${martinBaseUrl}/porto/{z}/{x}/{y}`],
             maxzoom: 15,
             minzoom: 0,
             attribution:
