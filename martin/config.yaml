@@ -1,5 +1,11 @@
 pmtiles:
+  # 🔓 是否允许 Martin 通过 HTTP(非 HTTPS)读取远程 PMTiles 文件.
+  # 📦 例如:http://example.com/world.pmtiles
+  # 💡 当前使用本地 /data/porto.pmtiles 时,此配置通常不会生效,但建议显式设置以避免警告.
+  allow_http: false
   paths:
     - /data/porto.pmtiles
-server:
-  allowed_origins: ["*"]
+cors:
+  # 🌐 允许哪些来源(Origin)通过浏览器跨域访问 Martin API.
+  # "*" 表示允许所有来源访问.
+  origin: ["*"]
