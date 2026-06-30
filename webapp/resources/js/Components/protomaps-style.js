@@ -1,24 +1,17 @@
-// 地图瓦片服务(地图 API 引擎)
-const martinBaseUrl = "https://martin.eadx.com";
-
-// webapp 前端
-const geoglifyBaseUrl = "https://geoglify.eadx.com";
-
 export const protomapsStyle = {
     version: 8,
     sources: {
         protomaps: {
             type: "vector",
-            // tiles: ["http://localhost:8081/porto/{z}/{x}/{y}"],
-            tiles: [`${martinBaseUrl}/porto/{z}/{x}/{y}`],
+            tiles: ["https://martin.eadx.com/porto/{z}/{x}/{y}"],
             maxzoom: 15,
             minzoom: 0,
             attribution:
                 '<a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap</a>',
         },
     },
-    sprite: "http://localhost:8080/maps/sprites/light",
-    glyphs: "http://localhost:8080/maps/fonts/{fontstack}/{range}.pbf",
+    sprite: "https://martin.eadx.com/sprite/temaki",
+    glyphs: "https://martin.eadx.com/font/{fontstack}/{range}",
     "layers": [
         {
             "id": "background",
@@ -6902,7 +6895,7 @@ export const protomapsStyle = {
                     "shield_text"
                 ],
                 "text-font": [
-                    "Noto Sans Medium"
+                    "Noto Sans Regular"
                 ],
                 "text-size": 8,
                 "icon-size": 0.8,
@@ -11705,7 +11698,7 @@ export const protomapsStyle = {
                     [
                         "literal",
                         [
-                            "Noto Sans Medium"
+                            "Noto Sans Regular"
                         ]
                     ],
                     [
@@ -11984,7 +11977,7 @@ export const protomapsStyle = {
                     {}
                 ],
                 "text-font": [
-                    "Noto Sans Medium"
+                    "Noto Sans Regular"
                 ],
                 "text-size": [
                     "interpolate",
