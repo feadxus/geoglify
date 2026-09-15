@@ -8,9 +8,14 @@ RUN apk --no-cache add \
     chromium \
     nginx \
     supervisor \
-    npm \
     libpng-dev \
     && docker-php-ext-enable opcache
+
+# 🚀 锁定 Node.js 22 版本
+COPY --from=node:22-alpine /usr/local/bin/node /usr/local/bin/node
+COPY --from=node:22-alpine /usr/local/lib/node_modules /usr/local/lib/node_modules
+RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
+
 
 # Install PHP extensions
 RUN set -ex \
@@ -42,6 +47,11 @@ COPY conf.d/supervisor/supervisord-dev.conf /etc/supervisord-dev.conf
 
 # Copy Laravel application files
 COPY . /var/www/webapp
+
+# 把前后端依赖全装好
+RUN composer install --no-interaction --no-scripts --optimize-autoloader \
+    && npm install \
+    && npm run build
 
 # Set up permissions
 RUN chown -R www-data:www-data /var/www/webapp \
