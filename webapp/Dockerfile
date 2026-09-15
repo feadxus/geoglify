@@ -40,7 +40,7 @@ COPY conf.d/supervisor/supervisord.conf /etc/supervisord.conf
 COPY conf.d/supervisor/supervisord-dev.conf /etc/supervisord-dev.conf
 
 # 5️⃣ 🚀 [性能优化] 先拷贝依赖文件并安装依赖(充分利用 Docker Layer 缓存)
-COPY composer.json composer.lock ./
+COPY composer.json composer.lock* ./
 RUN composer install --no-interaction --no-scripts --no-autoloader
 
 COPY package.json package-lock.json* ./
